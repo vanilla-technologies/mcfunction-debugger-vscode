@@ -40,6 +40,11 @@
                     "program": "./bin/mcfunction-debug-adapter-x86_64-unknown-linux-gnu"
                 }
             }
+        ],
+        "breakpoints": [
+            {
+                "language": "mcfunction"
+            }
         ]
     },
     "scripts": {
