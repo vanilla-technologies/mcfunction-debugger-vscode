@@ -16,16 +16,10 @@
         "Debuggers"
     ],
     "activationEvents": [
-        "onCommand:mcfunction-debugger.helloWorld"
+        "onCommand:mcfunction-debugger.askForFunctionPath"
     ],
     "main": "./out/extension.js",
     "contributes": {
-        "commands": [
-            {
-                "command": "mcfunction-debugger.helloWorld",
-                "title": "Hello World"
-            }
-        ],
         "debuggers": [
             {
                 "type": "mcfunction",
@@ -38,6 +32,76 @@
                 },
                 "linux": {
                     "program": "./bin/mcfunction-debug-adapter-x86_64-unknown-linux-gnu"
+                },
+                "configurationAttributes": {
+                    "launch": {
+                        "required": [
+                            "minecraftWorldDir"
+                        ],
+                        "properties": {
+                            "program": {
+                                "type": "string",
+                                "description": "Absolute path to an mcfunction file.",
+                                "default": "${file}"
+                            },
+                            "minecraftWorldDir": {
+                                "type": "string",
+                                "description": "Absolute path to the Minecraft world to run the function in."
+                            },
+                            "minecraftLogFile": {
+                                "type": "string",
+                                "description": "Absolute path to Minecraft's log file.",
+                                "default": "${userHome}/AppData/Roaming/.minecraft/logs/latest.log"
+                            }
+                        }
+                    }
+                },
+                "initialConfigurations": [
+                    {
+                        "name": "mcfunction: Debug current function",
+                        "type": "mcfunction",
+                        "request": "launch",
+                        "program": "${file}",
+                        "minecraftWorldDir": "${userHome}/AppData/Roaming/.minecraft/saves/New World",
+                        "minecraftLogFile": "${userHome}/AppData/Roaming/.minecraft/logs/latest.log"
+                    },
+                    {
+                        "name": "mcfunction: Ask for function path",
+                        "type": "mcfunction",
+                        "request": "launch",
+                        "program": "${command:askForFunctionPath}",
+                        "minecraftWorldDir": "${userHome}/AppData/Roaming/.minecraft/saves/New World",
+                        "minecraftLogFile": "${userHome}/AppData/Roaming/.minecraft/logs/latest.log"
+                    }
+                ],
+                "configurationSnippets": [
+                    {
+                        "label": "mcfunction: Debug current function",
+                        "description": "A new configuration for debugging the current mcfunction file.",
+                        "body": {
+                            "name": "mcfunction: Debug current function",
+                            "type": "mcfunction",
+                            "request": "launch",
+                            "program": "^\"\\${file}\"",
+                            "minecraftWorldDir": "^\"\\${userHome}/AppData/Roaming/.minecraft/saves/New World\"",
+                            "minecraftLogFile": "^\"\\${userHome}/AppData/Roaming/.minecraft/logs/latest.log\""
+                        }
+                    },
+                    {
+                        "label": "mcfunction: Ask for function path",
+                        "description": "A new configuration for debugging a user selected mcfunction file.",
+                        "body": {
+                            "name": "mcfunction: Ask for function path",
+                            "type": "mcfunction",
+                            "request": "launch",
+                            "program": "^\"\\${command:askForFunctionPath}\"",
+                            "minecraftWorldDir": "^\"\\${userHome}/AppData/Roaming/.minecraft/saves/New World\"",
+                            "minecraftLogFile": "^\"\\${userHome}/AppData/Roaming/.minecraft/logs/latest.log\""
+                        }
+                    }
+                ],
+                "variables": {
+                    "askForFunctionPath": "mcfunction-debugger.askForFunctionPath"
                 }
             }
         ],
