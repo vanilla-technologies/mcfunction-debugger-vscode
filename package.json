@@ -1,6 +1,6 @@
 {
     "name": "mcfunction-debugger",
-    "displayName": "mcfunction Debugger",
+    "displayName": "mcfunction-debugger",
     "description": "A debugger for Minecraft's *.mcfunction files that does not require any Minecraft mods.",
     "version": "0.0.1",
     "publisher": "vanilla-technologies",
@@ -16,6 +16,7 @@
         "Debuggers"
     ],
     "activationEvents": [
+        "onDebugResolve:mcfunction",
         "onCommand:mcfunction-debugger.askForFunctionPath"
     ],
     "main": "./out/extension.js",
@@ -26,7 +27,7 @@
                 "languages": [
                     "mcfunction"
                 ],
-                "label": "mcfunction Debugger",
+                "label": "mcfunction-debugger",
                 "windows": {
                     "program": "./bin/mcfunction-debug-adapter-x86_64-pc-windows-msvc.exe"
                 },
@@ -109,7 +110,30 @@
             {
                 "language": "mcfunction"
             }
-        ]
+        ],
+        "configuration": {
+            "title": "mcfunction-Debugger",
+            "properties": {
+                "mcfunctionDebugger.adapter.log.file": {
+                    "description": "Specifies the log file for the debug adapter. Relative paths are resolved relative to the first workspace folder.",
+                    "type": "string",
+                    "scope": "resource"
+                },
+                "mcfunctionDebugger.adapter.log.level": {
+                    "description": "Specifies the log level for the debug adapter.",
+                    "type": "string",
+                    "enum": [
+                        "OFF",
+                        "ERROR",
+                        "WARN",
+                        "INFO",
+                        "DEBUG",
+                        "TRACE"
+                    ],
+                    "default": "TRACE"
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
