@@ -1,70 +1,176 @@
-# mcfunction-debugger README
+[![Minecraft: Java Edition 1.14.1 - 1.19.3](https://img.shields.io/badge/Minecraft%3A%20Java%20Edition-1.14.1%20--%201.19.3-informational)](https://www.minecraft.net/store/minecraft-java-edition)
+![Minecraft: Bedrock Edition unsupported](https://img.shields.io/badge/Minecraft%3A%20Bedrock%20Edition-unsupported-critical)\
+[![Visual Studio Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/vanilla-technologies.mcfunction-debugger.svg?logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=vanilla-technologies.mcfunction-debugger)
+[![License](https://img.shields.io/github/license/vanilla-technologies/mcfunction-debugger-vscode.svg)](https://github.com/vanilla-technologies/mcfunction-debugger-vscode/blob/master/LICENSE)
 
-This is the README for your extension "mcfunction-debugger". After writing up a brief description, we recommend including the following sections.
+# McFunction-Debugger
+
+McFunction-Debugger is a debugger for Minecraft's mcfunction files that does not require any Minecraft mods.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### Execute mcfunction Files
 
-For example if there is an image subfolder under your extension project workspace:
+You can execute any mcfunction file of a datapack in your Minecraft world directly from Visual Studio Code.
 
-\!\[feature X\]\(images/feature-x.png\)
+### Breakpoints
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Pause the execution at any point by setting breakpoints.
+
+![breakpoints](images/breakpoints.png)
+
+_Syntax highlighting in this screenshot was provided by [Data-pack Helper Plus](https://github.com/SpyglassMC/vscode-datapack)._
+
+### Step through your Program
+
+Starting from a breakpoint you can execute your program line by line.
+
+### View Scores
+
+The scores of the `@s` entity are displayed when the execution is paused.
+
+![view scores](images/scores.png)
+
+### View Position and Rotation in Minecraft
+
+When paused, the current position and rotation are displayed with particles in Minecraft.
+
+![view position and rotation](images/position-and-rotation.png)
+
+## Quick Start
+
+1. Install McFunction-Debugger from Visual Studio Code Marketplace.
+2. Go to "Run and Debug (Ctrl + Shift + D)".
+3. Click on "create a launch.json file".
+4. Adjust the value of `minecraftWorldDir` to point to your Minecraft world.
+5. Open that world in Minecraft.
+6. Open the mcfunction file you want to debug (it must be in a datapack with a `pack.mcmeta` file).
+7. Set a breakpoint at a line with a Minecraft command by clicking left to the line number.
+8. Press the key `F5` on your keyboard.
+9. Execute the command `/reload` in Minecraft and follow the instructions there.
+
+## Debug Configuration
+
+There are three main options you can change in the debug configuration (in `launch.json`):
+
+### program
+
+This is the mcfunction file you want to debug.
+The initial debug configuration uses `${file}` which refers to the currently opened file when pressing `F5`.
+Alternatively you can use `${command:askForFunctionPath}` to instruct the debugger to ask you which function to debug.
+If you always want to debug the same function you can also specify a fixed file path. Use `${workspaceFolder}/...` for files in your workspace.
+
+### minecraftWorldDir
+
+This is the directory containing the Minecraft world the debugger should connect to.
+
+For single player this is typically a directory within the saves directory:
+* Windows: `${userHome}/AppData/Roaming/.minecraft/saves/`
+* GNU/Linux: `${userHome}/.minecraft/saves/`
+* Mac: `${userHome}/Library/Application Support/minecraft/saves/`
+
+For servers it is specified in `server.properties`.
+
+### minecraftLogFile
+
+This is the path to Minecraft's log file.
+
+For single player this is typically at these locations:
+* Windows: `${userHome}/AppData/Roaming/.minecraft/logs/latest.log`
+* GNU/Linux: `${userHome}/.minecraft/logs/latest.log`
+* Mac: `${userHome}/Library/Application Support/minecraft/logs/latest.log`
+
+For servers it is at `logs/latest.log` in the server directory.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+The debugger requires a running instance of Minecraft Java Edition (both singleplayer and server mode are supported).
+
+When using singleplayer, make sure the game is not paused. This happens when moving the Minecraft window to the the background or pressing `Esc` to enter the game menu. A paused game will cause the debugger to wait until the game is resumed. To prevent the game from pausing when moving the window to the background, you can open Minecraft's chat by pressing the key `T`.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+* `mcfunctionDebugger.adapter.log.file`: Specifies the log file for the debug adapter.
+* `mcfunctionDebugger.adapter.log.level`: Specifies the log level for the debug adapter.
+
+## Planned features
+
+These features are planned, but not yet implemented:
+
+* Hot code replacement [#70](https://github.com/vanilla-technologies/mcfunction-debugger/issues/70)
+* Support function tags [#12](https://github.com/vanilla-technologies/mcfunction-debugger/issues/12)
+* Allow users to supply a `commands.json` file for newer or older versions of Minecraft [#42](https://github.com/vanilla-technologies/mcfunction-debugger/issues/42)
+* Freezing the `gametime` while suspended [#18](https://github.com/vanilla-technologies/mcfunction-debugger/issues/18)
+* Freezing the age of all entities while suspended (this is currently only done for area_effect_clouds) [#24](https://github.com/vanilla-technologies/mcfunction-debugger/issues/24)
+* Support debugging multiple datapacks at once [#9](https://github.com/vanilla-technologies/mcfunction-debugger/issues/9)
+* Support debugging `load.json` and `tick.json` [#8](https://github.com/vanilla-technologies/mcfunction-debugger/issues/8)
+* Support storing the `result`/`success` of a `function` command with `execute store` [#11](https://github.com/vanilla-technologies/mcfunction-debugger/issues/11)
+* Setting `randomTickSpeed` to 0 while suspended [#14](https://github.com/vanilla-technologies/mcfunction-debugger/issues/14)
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+### Visual Studio Code Extension
 
-## Release Notes
+#### After Cancelling a Launch the Setup Notification is not Shown Again
 
-Users appreciate release notes as you update your extension.
+The first time you start debugging a function, the debugger shows a notification with instructions to execute `/reload` in Minecraft. If you cancel the connection procedure, this notification is not shown again until you complete a launch sucessfully. Nevertheless you need to execute `/reload` and follow the instructions in Minecraft to set up a connection initially.
 
-### 1.0.0
+### Debugger Core
 
-Initial release of ...
+Unfortunately a program can always behave slightly differently when being debugged.
+Here are some problems you might encounter during debugging with McFunction-Debugger.
 
-### 1.0.1
+#### Operating on Dead Entities
 
-Fixed issue #.
+In a Minecraft function you can kill an entity and then continue using it.
+For example, consider the following datapack:
 
-### 1.1.0
+`example:sacrifice_pig`:
+```
+summon pig ~ ~ ~ {Tags: [sacrifice]}
+execute as @e[type=pig,tag=sacrifice] run function example:perform_necromancy
+```
 
-Added features X, Y, and Z.
+`example:perform_necromancy`:
+```
+say I am still alive
+function example:kill_me
+say I am dead inside
+```
 
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
+`example:kill_me`:
+```
+kill @s
+```
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+After the function `example:kill_me` is executed the pig is dead, yet it speaks to us from the other side.
+This cannot be handled by the debugger.
+If you try to debug the function `example:sacrifice_pig` it will crash:
+```
+[Pig] I am still alive
+Selected entity was killed!
+Start a new debugging session with '/function debug:<your_namespace>/<your_function>'
+Executed 145 commands from function 'debug:example/sacrifice_pig'
+```
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+#### Hitting the Maximum Command Chain Length
 
-## Working with Markdown
+By default Minecraft only executes up to 65536 commands per tick.
+Since the debug datapack needs to run many commands in addition to the commands of your datapack, you might hit this limit when debugging a very large datapack.
+You can tell by looking at how many commands where executed from the function.
+When you see something like:
+```
+Executed 65536 commands from function 'debug:resume'
+```
+You should stop the debug session with `/function debug:stop` and add more breakpoints to avoid running so many commands at once or increase the command limit with:
+```
+/gamerule maxCommandChainLength 2147483647
+```
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+#### Chunkloading
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
+If a chunk that contains an entity required for debugging is unloaded, while a function is suspended on a breakpoint, the debug session will crash, if you try to resume the execution.
 
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+This can for example happen if you go far away or if the function operates in a chunk that is only loaded temporarily (for instance by a `teleport` command or by going through a portal).

@@ -65,14 +65,6 @@
                         "program": "${file}",
                         "minecraftWorldDir": "${userHome}/AppData/Roaming/.minecraft/saves/New World",
                         "minecraftLogFile": "${userHome}/AppData/Roaming/.minecraft/logs/latest.log"
-                    },
-                    {
-                        "name": "mcfunction: Ask for function path",
-                        "type": "mcfunction",
-                        "request": "launch",
-                        "program": "${command:askForFunctionPath}",
-                        "minecraftWorldDir": "${userHome}/AppData/Roaming/.minecraft/saves/New World",
-                        "minecraftLogFile": "${userHome}/AppData/Roaming/.minecraft/logs/latest.log"
                     }
                 ],
                 "configurationSnippets": [
@@ -112,7 +104,7 @@
             }
         ],
         "configuration": {
-            "title": "mcfunction-Debugger",
+            "title": "McFunction-Debugger",
             "properties": {
                 "mcfunctionDebugger.adapter.log.file": {
                     "description": "Specifies the log file for the debug adapter. Relative paths are resolved relative to the first workspace folder.",
