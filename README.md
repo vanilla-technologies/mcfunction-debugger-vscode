@@ -49,6 +49,13 @@ When paused, the current position and rotation are displayed with particles in M
 8. Press the key `F5` on your keyboard.
 9. Execute the command `/reload` in Minecraft and follow the instructions there.
 
+## Uninstall
+
+To connect to Minecraft McFunction-Debugger uses [Minect](https://github.com/vanilla-technologies/minect) to create a connection building in Minecraft the first time you debug a program. To uninstall Minect in Minecraft, execute:
+```mcfunction
+function minect:uninstall
+```
+
 ## Debug Configuration
 
 There are three main options you can change in the debug configuration (in `launch.json`):
