@@ -13,6 +13,13 @@ McFunction-Debugger is a debugger for Minecraft's mcfunction files that does not
 
 You can execute any mcfunction file of a datapack in your Minecraft world directly from Visual Studio Code.
 
+The function will be executed with a `schedule` command, so it runs without an `@s` entity at the world's origin position.
+To change this, you can create a new function that executes your function as the player or at a different position and debug this new function instead. For example:
+
+```mcfunction
+execute as @p at @s run function my_namespace:my_function
+```
+
 ### Breakpoints
 
 Pause the execution at any point by setting breakpoints.
