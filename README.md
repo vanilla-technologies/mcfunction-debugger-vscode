@@ -37,6 +37,11 @@ When paused, the current position and rotation are displayed with particles in M
 
 ![view position and rotation](images/position-and-rotation.png)
 
+You can teleport yourself to this position and rotation by executing the following command:
+```mcfunction
+teleport @s @e[type=area_effect_cloud,tag=mcfd_breakpoint,limit=1]
+```
+
 ## Quick Start
 
 1. Install McFunction-Debugger from Visual Studio Code Marketplace.
