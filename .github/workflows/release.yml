@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            target: win32-x64
+            npm_config_arch: x64
+            extension: .exe
+          - os: windows-latest
+            target: win32-ia32
+            npm_config_arch: ia32
+            extension: .exe
+          - os: windows-latest
+            target: win32-arm64
+            npm_config_arch: arm64
+            extension: .exe
+          - os: ubuntu-latest
+            target: linux-x64
+            npm_config_arch: x64
+          - os: ubuntu-latest
+            target: alpine-x64
+            npm_config_arch: x64
+          - os: macos-latest
+            target: darwin-x64
+            npm_config_arch: x64
+          - os: macos-latest
+            target: darwin-arm64
+            npm_config_arch: arm64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout Git Repository
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 19.x
+      - run: npm install
+        env:
+          npm_config_arch: ${{ matrix.npm_config_arch }}
+      - name: Build
+        run: npx vsce package --target ${{ matrix.target }}
+      - name: GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: mcfunction-debugger-*.vsix
