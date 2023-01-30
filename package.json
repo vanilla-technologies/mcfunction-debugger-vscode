@@ -2,7 +2,7 @@
     "name": "mcfunction-debugger",
     "displayName": "mcfunction-debugger",
     "description": "A debugger for Minecraft's *.mcfunction files that does not require any Minecraft mods.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "publisher": "vanilla-technologies",
     "repository": {
         "type": "git",
