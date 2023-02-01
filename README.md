@@ -52,7 +52,9 @@ teleport @s @e[type=area_effect_cloud,tag=mcfd_breakpoint,limit=1]
 ## Quick Start
 
 1. Install McFunction-Debugger from Visual Studio Code Marketplace.
-2. Go to "Run and Debug (Ctrl + Shift + D)".
+2. Go to "Run and Debug":
+  * Windows / Linux: `Ctrl + Shift + D`
+  * macOS: `Cmd + Shift + D`
 3. Click on "create a launch.json file".
 4. Adjust the value of `minecraftWorldDir` to point to your Minecraft world.
 5. Open that world in Minecraft.
