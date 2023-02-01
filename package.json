@@ -21,6 +21,19 @@
     ],
     "main": "./out/extension.js",
     "contributes": {
+        "languages": [
+            {
+                "id": "mcfunction",
+                "extensions": [
+                    "mcfunction"
+                ]
+            }
+        ],
+        "breakpoints": [
+            {
+                "language": "mcfunction"
+            }
+        ],
         "debuggers": [
             {
                 "type": "mcfunction",
@@ -99,11 +112,6 @@
                 "variables": {
                     "askForFunctionPath": "mcfunction-debugger.askForFunctionPath"
                 }
-            }
-        ],
-        "breakpoints": [
-            {
-                "language": "mcfunction"
             }
         ],
         "configuration": {
